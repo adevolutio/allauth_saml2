@@ -46,9 +46,9 @@ history = open('HISTORY.rst').read().replace('.. :changelog:', '')
 requirements = open('requirements.txt').readlines()
 
 setup(
-    name='allauth_saml2',
+    name='django-allauth-saml2',
     version=version,
-    description="""Django- AllAuth Saml2 provider""",
+    description="""Django AllAuth Saml2 provider""",
     long_description= + '\n\n' + history,
     author='David Vaz',
     author_email='dvaz@evolutio.pt',
