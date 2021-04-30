@@ -2,6 +2,9 @@
 Django AllAuth Saml2
 =============================
 
+.. image:: https://badge.fury.io/py/django-allauth-saml2.svg
+    :target: https://badge.fury.io/py/django-allauth-saml2
+
 Django allauth saml2 provider, this provider is based on pysaml2 (https://pysaml2.readthedocs.io/)
 
 Quick start
