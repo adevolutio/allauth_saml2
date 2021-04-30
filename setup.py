@@ -65,7 +65,7 @@ setup(
         'Development Status :: 3 - Alpha',
         'Framework :: Django',
         'Intended Audience :: Developers',
-        'Operating System :: OS Independent'
+        'Operating System :: OS Independent',
         'Natural Language :: English',
         'Programming Language :: Python :: 3',
     ],
