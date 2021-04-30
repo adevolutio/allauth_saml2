@@ -49,7 +49,7 @@ setup(
     name='django-allauth-saml2',
     version=version,
     description="""Django AllAuth Saml2 provider""",
-    long_description= + '\n\n' + history,
+    long_description=readme + '\n\n' + history,
     author='David Vaz',
     author_email='dvaz@evolutio.pt',
     url='https://github.com/adevolutio/allauth_saml2',
