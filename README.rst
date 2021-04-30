@@ -1,6 +1,6 @@
-=====
-All Auth saml2
-=====
+=============================
+Django AllAuth Saml2
+=============================
 
 Django allauth saml2 provider, this provider is based on pysaml2 (https://pysaml2.readthedocs.io/)
 
@@ -33,3 +33,14 @@ Quick start
         }
     }
 
+
+Credits
+-------
+
+Tools used in rendering this package:
+
+*  Cookiecutter_
+*  `cookiecutter-djangopackage`_
+
+.. _Cookiecutter: https://github.com/audreyr/cookiecutter
+.. _`cookiecutter-djangopackage`: https://github.com/pydanny/cookiecutter-djangopackage
