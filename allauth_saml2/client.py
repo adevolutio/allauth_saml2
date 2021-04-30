@@ -1,13 +1,9 @@
+import collections.abc
 from urllib.parse import urlparse
 
-from saml2 import (
-    BINDING_HTTP_POST,
-    BINDING_HTTP_REDIRECT,
-)
+from saml2 import BINDING_HTTP_POST, BINDING_HTTP_REDIRECT
 from saml2.client import Saml2Client as Saml2Client_
 from saml2.config import Config as Saml2Config
-
-import collections.abc
 
 
 def update(d, u):
@@ -60,66 +56,67 @@ class Saml2Client(object):
         saml_settings = {
             # "entityid": None,
             # "description": "Example SP",
-
-            'service': {
-                'sp': {
-                    'endpoints': {
-                        'assertion_consumer_service': [
+            "service": {
+                "sp": {
+                    "endpoints": {
+                        "assertion_consumer_service": [
                             (self.acs_url, BINDING_HTTP_REDIRECT),
-                            (self.acs_url, BINDING_HTTP_POST)
+                            (self.acs_url, BINDING_HTTP_POST),
                         ],
                         # Other Valid endpoints not configured yet
-                        #'artifact_resolution_service': []
-                        #"single_logout_service": []
+                        # 'artifact_resolution_service': []
+                        # "single_logout_service": []
                     },
                     # this is overriden if a key is available
-                    'authn_requests_signed': False,
-
-                    'allow_unsolicited': True,  # this is needed for POST
-
+                    "authn_requests_signed": False,
+                    "allow_unsolicited": True,  # this is needed for POST
                     # Indicates that either the Authentication Response or the assertions contained
                     # within the response to this SP must be signed. Check DOCS
-                    'want_assertions_signed': False,
-                    'want_response_signed': False,
+                    "want_assertions_signed": False,
+                    "want_response_signed": False,
                     "want_assertions_or_response_signed": True,
                 },
             },
         }
 
-        if 'METADATA_LOCAL_FILE_PATH' in self.settings:
-            update(saml_settings, {
-                'metadata': {
-                    'local': [self.settings['METADATA_LOCAL_FILE_PATH']]
-                }
-            })
-        elif 'METADATA_AUTO_CONF_URL' in self.settings:
-            update(saml_settings, {
-                'metadata': {
-                    'remote': [
-                        {
-                            "url": self.settings['METADATA_AUTO_CONF_URL'],
-                        },
-                    ]
-                }
-            })
+        if "METADATA_LOCAL_FILE_PATH" in self.settings:
+            update(
+                saml_settings,
+                {"metadata": {"local": [self.settings["METADATA_LOCAL_FILE_PATH"]]}},
+            )
+        elif "METADATA_AUTO_CONF_URL" in self.settings:
+            update(
+                saml_settings,
+                {
+                    "metadata": {
+                        "remote": [
+                            {
+                                "url": self.settings["METADATA_AUTO_CONF_URL"],
+                            },
+                        ]
+                    }
+                },
+            )
         else:
             raise Saml2Error("IdP metadata missing")
 
-        if 'ENTITY_ID' in self.settings:
-            saml_settings['entityid'] = self.settings['ENTITY_ID']
+        if "ENTITY_ID" in self.settings:
+            saml_settings["entityid"] = self.settings["ENTITY_ID"]
         else:
             # EntityId: It is recommended that the entityid should point to a real webpage where the metadata
             # for the entity can be found. TODO: make this true
             uri = urlparse(self.acs_url)
-            saml_settings['entityid'] = f'{uri.scheme}://{uri.netloc}'
+            saml_settings["entityid"] = f"{uri.scheme}://{uri.netloc}"
 
-        if 'NAME_ID_FORMAT' in self.settings:
-            saml_settings['service']['sp']['name_id_format'] = self.settings['NAME_ID_FORMAT']
+        if "NAME_ID_FORMAT" in self.settings:
+            saml_settings["service"]["sp"]["name_id_format"] = self.settings[
+                "NAME_ID_FORMAT"
+            ]
 
-        if 'ACCEPTED_TIME_DIFF' in self.settings:
-            saml_settings['accepted_time_diff'] = self.settings['ACCEPTED_TIME_DIFF']
+        if "ACCEPTED_TIME_DIFF" in self.settings:
+            saml_settings["accepted_time_diff"] = self.settings["ACCEPTED_TIME_DIFF"]
 
-        if 'KEY_FILE' in self.settings and 'CERT_FILE' in self.settings:
+        if "KEY_FILE" in self.settings and "CERT_FILE" in self.settings:
             try:
                 from saml2.sigver import get_xmlsec_binary
             except ImportError:
@@ -128,18 +125,17 @@ class Saml2Client(object):
             if get_xmlsec_binary:
                 xmlsec_path = get_xmlsec_binary(["/opt/local/bin", "/usr/local/bin"])
             else:
-                xmlsec_path = '/usr/local/bin/xmlsec1'
+                xmlsec_path = "/usr/local/bin/xmlsec1"
 
-            update(saml_settings, {
-                'service': {
-                    'sp': {
-                        "authn_requests_signed": True
-                    }
+            update(
+                saml_settings,
+                {
+                    "service": {"sp": {"authn_requests_signed": True}},
+                    "key_file": self.settings["KEY_FILE"],
+                    "cert_file": self.settings["CERT_FILE"],
+                    "xmlsec_binary": xmlsec_path,
                 },
-                "key_file": self.settings['KEY_FILE'],
-                "cert_file": self.settings['CERT_FILE'],
-                "xmlsec_binary": xmlsec_path,
-            })
+            )
 
         # TODO: add encryption_keypairs
 

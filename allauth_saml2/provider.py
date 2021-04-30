@@ -4,14 +4,14 @@ from django.urls import reverse
 
 # noinspection PyAbstractClass
 class Saml2Provider(Provider):
-    id = ''
+    id = ""
 
     mappings = {
-        'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/upn': 'upn',
-        'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress': 'email',
-        'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/givenname': 'first_name',
-        'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/surname': 'last_name',
-        'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name': 'name',
+        "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/upn": "upn",
+        "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress": "email",
+        "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/givenname": "first_name",
+        "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/surname": "last_name",
+        "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name": "name",
     }
 
     def convert_from_mapping(self, data):
